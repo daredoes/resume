@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{user.full_name}}</title>
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/font-awesome.min.css" />
+    <link href="../static/css/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/pure-min.css">
+    <!--[if lt IE 9]>
+      <script src="../static/js/html5shiv.js"></script>
+      <script src="../static/js/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="apple-touch-icon" sizes="57x57" href="static/favicons/dare/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="static/favicons/dare/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="static/favicons/dare/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="static/favicons/dare/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="static/favicons/dare/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="static/favicons/dare/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="static/favicons/dare/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="static/favicons/dare/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="static/favicons/dare/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="static/favicons/dare/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="static/favicons/dare/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="static/favicons/dare/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="static/favicons/dare/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="static/favicons/dare/manifest.json">
+    <link rel="mask-icon" href="static/favicons/dare/safari-pinned-tab.svg" color="#000000">
+    <link rel="shortcut icon" href="static/favicons/dare/favicon.ico">
+    <meta name="msapplication-TileColor" content="#00a300">
+    <meta name="msapplication-TileImage" content="static/favicons/dare/mstile-144x144.png">
+    <meta name="msapplication-config" content="static/favicons/dare/browserconfig.xml">
+    <meta name="theme-coloravatar.jpg" content="#ffffff">
+  </head>
+  {% set can_admin = c.CURRENT_ADMIN %}
+  <body>
+    <div class="container resume">
+      <div class="row">
+        <div class="col-xs-12">
+          <div id="photo-header" class="text-center">
+            <!-- PHOTO (AVATAR) -->
+            <div id="photo">
+              <img src="../static/images/avatar.jpg" alt="avatar">
+            </div>
+            <div id="text-header">
+              <h1>Hello,<br>My name is <span>{{user.full_name}}</span><sup>{{user.age|int}}yo</sup> and this is my resume/cv</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 col-sm-7">
+          <!-- ABOUT ME -->
+          <div class="box">
+            <h2>About Me</h2>
+            <p>About me text
+            </p>
+          </div>
+          <!-- EDUCATION -->
+          <div class="box">
+            <h2>Education</h2>
+            <ul id="education" class="clearfix">
+              {% for life in user.life_experiences %}
+              <li>
+                <div class="year pull-left">{{life.start_date.year}}</div>
+                <div class="description pull-right">
+                  <h3>{{life.name}}</h3>
+                  <p>{{life.description}}</p>
+                </div>
+              </li>
+               {% endfor %}
+            </ul>
+          </div>
+          <!-- EXPERIENCES -->
+          <div class="box">
+            <h2>Experiences</h2>
+            {% for e in user.job_experiences %}
+            <div class="job clearfix">
+              <div class="col-xs-3">
+                <div class="where">{{e.name}}</div>
+                <div class="year">{{e.year}}</div>
+              </div>
+              <div class="col-xs-9">
+                <div class="profession">{{e.title}}</div>
+                <div class="description">{{e.desc}}</div>
+              </div>
+            </div>
+            {% endfor %}
+
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-5">
+          <!-- CONTACT -->
+          <div class="box clearfix" >
+            <h2>Contact</h2>
+            <div id="contact_div">
+            {% for contact in user.contact_items %}
+            <div class="contact-item">
+              <a href="{{contact.link}}"><div class="icon pull-left text-center"><span class="fa fa-{{contact.icon}} fa-fw"></span></div></a>
+              <div class="title pull-right">{{contact.name}}</div>
+              <div class="description pull-right">{{contact.description}}</div>
+              {% if can_admin %}
+              <div class="pull-left">
+                <form class="ajaxForm" action="delete_item">
+                  <input name="id" value="{{contact.id}}" hidden/>
+                  <input type="submit" value="Delete?" />
+                </form>
+              </div>
+              {% endif %}
+            </div>
+            {% endfor %}
+              </div>
+            {% if can_admin %}
+              <form class="ajaxForm" action="add_new_contact">
+                <input type="text" name="div_id" value="#contact_div" hidden />
+                <input type="text" name="name" placeholder="Item Name" />
+                <input type="text" name="description" placeholder="Item Description" />
+                <input type="text" name="icon" placeholder="font-awesome icon" />
+                <input type="type" name="link" placeholder="href"/>
+                <input type="submit" />
+              </form>
+              {% endif %}
+          </div>
+          <!-- SKILLS -->
+          <div class="box">
+            <h2>Skills</h2>
+            <div class="skills">
+              <div id="skills_div">
+              {% for s in user.skills %}
+              <div class="item-skills" data-percent="0.{{s.level}}">
+                {% if can_admin %}
+                <form class="ajaxForm pull-left" action="delete_item">
+                  <input name="id" value="{{s.id}}" hidden/>
+
+                  <input type="submit" style="color: black;" value="X" class="fa" />
+                </form>&nbsp;
+                {% endif %}
+                {{s.name}}</div>
+              {% endfor %}
+              </div>
+              <div class="skills-legend clearfix">
+                <div class="legend-left legend">Beginner</div>
+                <div class="legend-left legend"><span>Proficient</span></div>
+                <div class="legend-right legend"><span>Expert</span></div>
+                <div class="legend-right legend">Master</div>
+              </div>
+              {% if can_admin %}
+              <form class="ajaxForm" action="add_new_skill">
+                <input type="text" name="div_id" value="#skills_div" hidden />
+                <input type="text" name="name" placeholder="Name of Skill" />
+                <input type="number" name="level" value="99" max="99" min="0" />
+                <input type="submit" />
+              </form>
+              {% endif %}
+            </div>
+          </div>
+          <!-- LANGUAGES -->
+          <div class="box">
+            <h2>Languages</h2>
+            <div id="language-skills">
+              {% for language in user.languages %}
+              <div class="skill">
+                {% if can_admin %}
+                <form class="ajaxForm pull-left" action="delete_item">
+                  <input name="id" value="{{language.id}}" hidden/>
+
+                  <input type="submit" style="color: black;" value="X" class="fa" />
+                </form>&nbsp;
+                {% endif %}{{language.name}}
+                <div class="icons pull-right">
+                  <div style="width: {{language.level}}%;" class="icons-red">
+
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+              {% if can_admin %}
+              <form class="ajaxForm" action="add_new_language">
+                <input type="text" name="name" placeholder="Name of Language" />
+                <input type="text" name="div_id" value="#language-skills" hidden />
+                <input type="number" name="level" value="99" max="99" min="0" />
+                <input type="submit" />
+              </form>
+              {% endif %}
+            </div>
+          </div>
+          <!-- HOBBIES -->
+          <div class="box">
+            <h2>Hobbies</h2>
+            <div id="hobbies_div">
+            {% for hobby in user.hobbies %}
+            <div class="hobby">
+              {% if can_admin %}
+                <form class="ajaxForm pull-left" action="delete_item">
+                  <input name="id" value="{{hobby.id}}" hidden/>
+
+                  <input type="submit" style="color: black;" value="X" class="fa" />
+                </form>&nbsp;
+                {% endif %}{{hobby.name}}</div>
+            {% endfor %}
+              </div>
+            {% if can_admin %}
+            <form class="ajaxForm" action="add_new_hobby">
+              <input type="text" name="div_id" value="#hobbies_div" hidden />
+              <input type="text" name="name" placeholder="Enter New Hobby" />
+              <input type="submit" />
+            </form>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <div class="row toolbar">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pure-menu pure-menu-horizontal pure-menu-scrollable">
+        <ul class="pure-menu-list">
+
+
+
+      </ul>
+      </div>
+
+    </div>
+    </div>
+    <!-- JQUERY -->
+    <script src="../static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.form.min.js"></script>
+    <!-- BOOTSTRAP -->
+    <script src="../static/js/bootstrap.min.js"></script>
+    <!-- SCRIPTS -->
+    <script src="../static/js/scripts.js"></script>
+
+    <script>
+      var update_category = function(id, s){
+        $(id).append(s);
+      };
+
+    $(document).ready(function(){
+      $('.ajaxForm').ajaxForm({
+                    data:{
+                        csrf_token: '{{c.CSRF_TOKEN}}',
+                        user_id: '{{user.id}}'
+                    },
+                    success:function(result, status, xhr){
+                      if(result.id && result.html)
+                        update_category(result.id, result.html);
+                      else if(result.message)
+                        alert(result.message);
+                    },
+                    resetForm: true,
+                    dataType: 'json',
+                    method: 'POST',
+                    error: function(result){
+                        alert(result.message);
+                    }
+                });
+        $("button").click(function(){
+          newID = $(this).data('divid');
+          $(".webbox").each(function(index){
+            if(!$(this).hasClass("hidden")){
+            $(this).addClass("hidden");
+          }
+          });
+          $(".active").each(function(index){
+            $(this).removeClass("active");
+          });
+          $(this).addClass("active");
+          //console.log(newID);
+            $(newID).toggleClass("hidden");
+            $("html, body").animate({ scrollTop: $(document).height() }, "slow");
+      return false;
+        });
+    });
+    </script>
+  </body>
+</html>
