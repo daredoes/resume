@@ -62,13 +62,14 @@ class Root:
 
             else:
                 user = item
-                if bio_pic.file:
-                    user.pic_filename = bio_pic.filename
-                    user.pic_content_type = bio_pic.content_type.value
-                    with open(user.pic_fpath, 'w') as f:
-                        pass
-                    with open(user.pic_fpath, 'wb') as f:
-                        shutil.copyfileobj(bio_pic.file, f)
+                if bio_pic:
+                    if bio_pic.filename:
+                        user.pic_filename = bio_pic.filename
+                        user.pic_content_type = bio_pic.content_type.value
+                        with open(user.pic_fpath, 'w') as f:
+                            pass
+                        with open(user.pic_fpath, 'wb') as f:
+                            shutil.copyfileobj(bio_pic.file, f)
             user_items = {
                 "index": session.query(User).all(),
                 "info": session.query(User).all(),
