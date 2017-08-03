@@ -65,8 +65,6 @@ class Root:
                 if bio_pic:
                     user.pic_filename = bio_pic.filename
                     user.pic_content_type = bio_pic.content_type.value
-                    if os.path.isfile(user.pic_fpath):
-                        os.remove(user.pic_fpath)
                     with open(user.pic_fpath, 'wb') as f:
                         shutil.copyfileobj(bio_pic.file, f)
             user_items = {
