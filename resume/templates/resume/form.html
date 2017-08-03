@@ -1,0 +1,273 @@
+{% extends 'base.html' %}
+{% block title %}Create New Account{% endblock %}
+{% block content %}
+<div class="s">
+    <div class="row">
+        <div class="col s12 l6 little-padding">
+            <div class="card grey lighten-4">
+                <div class="card-content">
+                    <span class="card-title center"><h3>User Information</h3></span>
+                    <form action="" method="post">
+                        {{ csrf_token() }}
+
+                        <div class="row">
+                            <div class="col s12 m6">
+                                <label for="first_name">First Name</label>
+                                <input type="text" name="first_name" id="first_name" value="{{user.first_name}}" placeholder="First Name"/>
+                            </div>
+                            <div class="col s12 m6">
+                                <label for="last_name">Last Name</label>
+                                <input type="text" name="last_name" id="last_name" value="{{user.last_name}}" placeholder="Last Name"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 input-field">
+                                <label for="birthdate">Birth Date</label>
+                                <input type="date" class="datepicker" id="birthdate" name="birthdate" value="{{user.birthdate}}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 input-field">
+                                <label for="about_me">About Me</label>
+                                <textarea name="about_me" id="about_me" >{{user.about_me}}</textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 input-field"></div>
+                            <button class="waves-effect waves-light btn" >Save</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-action center">
+                    <a href="../resume/experience?user_id={{ user.id }}">Experiences</a>
+                    <a onclick="openPage('../resume/job?user_id={{ user.id }}')">Jobs</a>
+                </div>
+            </div>
+        </div>
+        <div class="col s12 l6 little-padding">
+            <div class="row no-padding">
+                <div class="col s12 no-padding">
+                    <div class="card grey lighten-4 little-padding">
+                        <div class="card-content">
+                            <h4 class=" center">Add Hobby</h4>
+                            <div class="row">
+                                <div class="col s2 input-field">
+                                    <input placeholder="Enter Hobby" id="new_hobby" /> <a class="waves-effect waves-light btn" onclick="add_hobby()">Add</a>
+                                </div>
+                                <div class="col s10 input-field">
+                                    <div id="hobbies">
+                                        {% for hobby in user.hobbies %}
+                                        <div class="chip">
+                                            <i class="close fa fa-circle-o" onclick="delete_hobby('{{hobby.id}}');"></i>
+                                            {{ hobby.name }}
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            <h4 class="center">Add Contact Item</h4>
+                            <div class="row">
+                                <ul id="contact_items" class="collection grey lighten-4 " style="border: 0;">
+                                    {% for contact in user.contact_items %}
+                                        <li class="collection-item avatar grey lighten-4" style="margin-bottom: -1em;">
+                                            <a class="" href="" onclick="add_contact('cn{{ loop.index }}', 'cd{{ loop.index }}', 'ch{{ loop.index }}', 'ci{{ loop.index }}', '{{ contact.id }}')"><i class="fa fa-upload circle blue lighten-1"></i></a>
+                                            <a class="" href="" onclick="delete_contact('{{ contact.id }}')"><i class="fa fa-minus circle red lighten-1" style="margin-top: 3em;"></i></a>
+                                            <p class="no-margin-input">
+                                                <input placeholder="Item Name" name="name" id="cn{{ loop.index }}" value="{{ contact.name }}" />
+                                                <input placeholder="Item Description" name="description" id="cd{{ loop.index }}" value="{{ contact.description }}"/>
+                                                <input placeholder="HREF VALUE" name="link" id="ch{{ loop.index }}" value="{{ contact.link }}"/>
+                                                <input placeholder="Font Awesime VALUE" name="icon" id="ci{{ loop.index }}" value="{{ contact.icon }}"/>
+                                            </p>
+                                        </li>
+                                    {% endfor %}
+                                    <li class="collection-item avatar grey lighten-4" style="margin-bottom: -1em;">
+                                        <a class="" href="" onclick="add_contact('cn{{ user.contact_items|length + 1 }}', 'cd{{ user.contact_items|length + 1 }}', 'ch{{ user.contact_items|length + 1 }}', 'ci{{ user.contact_items|length + 1 }}')"><i class="fa fa-plus circle blue lighten-1"></i></a>
+                                        <p class="no-margin-input">
+                                            <input placeholder="Item Name" name="name" id="cn{{ user.contact_items|length + 1 }}" />
+                                            <input placeholder="Item Description" name="description" id="cd{{ user.contact_items|length + 1 }}" />
+                                            <input placeholder="HREF VALUE" name="link" id="ch{{ user.contact_items|length + 1 }}" />
+                                            <input placeholder="Font Awesime VALUE" name="icon" id="ci{{ user.contact_items|length + 1 }}" />
+                                        </p>
+                                    </li>
+                                </ul>
+                            </div>
+                            <h4 class="center">Add Skills</h4>
+                            <div class="row">
+                                <div class="col s12 m6 ">
+                                    <div class="card-panel">
+                                        <div class="row">
+                                            <input type="text" placeholder="Name of Skill" />
+                                        </div>
+                                        <div class="row">
+                                            <p class="range-field">
+                                            <input type="range" min="0" max="100" value="50" />
+                                            <span class="left">Amateur</span><span class="right">Master</span>
+                                            </p>
+                                        </div>
+                                        <div class="row">
+                                            <div class="center">
+                                                <a href="" onclick="add_skill()" class="waves-light waves-effect btn">Save</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                            <div class="row">
+                                {% for item in user.skills %}
+                                <div class="col s12 m6 ">
+                                    <div class="card-panel">
+                                        <div class="row">
+                                            <input type="text" value="{{ item.name }}" />
+                                        </div>
+                                        <div class="row">
+                                            <p class="range-field">
+                                                <input type="range" min="0" max="100" value="{{ item.level }}" />
+                                                <span class="left">Amateur</span><span class="right">Master</span>
+                                            </p>
+                                        </div>
+                                        <div class="row">
+                                            <div class="center">
+                                                <button class="waves-light waves-effect btn">Save</button>
+                                                <button class="waves-light waves-effect btn">Delete</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    var openPage = function(value){
+      window.open(value, "_self");
+    };
+
+
+    var contact_length = {{ user.contact_items|length + 1 }};
+    var contact_items = $("#contact_items");
+    var contact_item = $("<li>", {
+        "class": "collection-item avatar grey lighten-4",
+        "style": "margin-bottom: -1em"
+    });
+    var contact_input_holder = $("<p>", {"class": "no-margin-input"});
+
+    var delete_contact = function(id){
+      $.post("delete_contact",
+          {
+              'id': id,
+              'csrf_token': csrf_token
+          },
+      function (data, status) {
+         if(!data){
+             alert('Failed');
+         }
+      });
+    };
+
+    var add_contact = function(cn, cd, ch, ci, id){
+      var name_element = $("#" + cn);
+      var description_element = $("#" + cd);
+      var href_element = $("#" + ch);
+      var icon_element = $("#" + ci);
+      var data = {
+              'name': name_element.val(),
+              'description': description_element.val(),
+              'link': href_element.val(),
+              'icon': icon_element.val(),
+              'csrf_token': csrf_token,
+              'user_id': "{{user.id}}"
+          };
+      if(id){
+          data['id'] = id;
+      }
+
+      $.post("add_contact",
+          data,
+      function (data, status) {
+         if(data){
+             var new_element = contact_item.clone();
+             var a_elem = $("<a>", {
+                 'onclick': "add_contact('cn" + contact_length + "', 'cd" + contact_length + "', 'ch" + contact_length + "', 'ci" + contact_length + "')"
+             });
+             a_elem.append($("<i>", {
+                 "class": "fa fa-upload circle blue lighten-1"
+             }));
+             new_element.append(a_elem);
+             var inputs = contact_input_holder.clone();
+             inputs.append($("<input>", {
+                 "placeholder": "Item Name",
+                 "id": "cn" + contact_length
+             }));
+             inputs.append($("<input>", {
+                 "placeholder": "Item Description",
+                 "id": "cd" + contact_length
+             }));
+             inputs.append($("<input>", {
+                 "placeholder": "Item HREF",
+                 "id": "ch" + contact_length
+             }));
+             inputs.append($("<input>", {
+                 "placeholder": "Font Awesome Value",
+                 "id": "ci" + contact_length
+             }));
+             contact_length += 1;
+             contact_items.append(new_element);
+
+         }
+      });
+    };
+    var hobby_element = $("<div>", {"class": "chip"});
+    var delete_hobby = function(id){
+      $.post("delete_hobby",
+          {
+              'id': id,
+              'csrf_token': csrf_token
+          },
+      function (data, status) {
+         if(!data){
+             alert('Failed');
+         }
+      });
+    };
+    var add_hobby = function(){
+        var element = $("#new_hobby");
+        var hobby = element.val();
+        $.post("add_hobby",
+            {
+                'name': hobby,
+                'csrf_token': csrf_token,
+                'user_id': "{{user.id}}"
+            },
+            function(data, status){
+                if(data){
+                   var new_element = hobby_element.clone();
+                   new_element.append($("<i>", {"class":"close fa fa-circle-o",
+                   "onclick":"delete_hobby('" + data.id + "');"}));
+                   new_element.append(data.name);
+                   $("#hobbies").append(new_element);
+                    element.val("")
+                }
+                else{
+                    alert("It failed for some reason");
+                }
+            });
+    };
+</script>
+{% endblock %}
+
+{% block jquery_ready %}
+
+
+$('.datepicker').pickadate({
+    selectMonths: true, // Creates a dropdown to control month
+    selectYears: 115 // Creates a dropdown of 15 years to control year
+  });
+
+$('#about_me').trumbowyg();
+$('#experience_description').trumbowyg();
+{% endblock %}

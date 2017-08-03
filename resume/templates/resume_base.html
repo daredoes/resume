@@ -56,8 +56,9 @@
           <!-- ABOUT ME -->
           <div class="box">
             <h2>About Me</h2>
-            <p>About me text
-            </p>
+            <div id="about_text">
+              {{ user.about_me|rerender }}
+            </div>
           </div>
           <!-- EDUCATION -->
           <div class="box">

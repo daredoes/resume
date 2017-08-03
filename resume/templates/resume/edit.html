@@ -1,0 +1,351 @@
+{% extends 'base.html' %}
+
+{% if type == 'jobs' %}
+{% set page_title = 'Edit Jobs' %}
+{% set card_title = 'Job Information' %}
+{% elif type == 'skills' %}
+{% set page_title = 'Edit Skills' %}
+{% set card_title = 'Skills Information' %}
+{% elif type == 'experiences' %}
+{% set page_title = 'Edit Experiences' %}
+{% set card_title = 'Experience Information' %}
+{% elif type == 'index' or type == 'info' %}
+{% set page_title = 'Edit Information' %}
+{% set card_title = 'User Information' %}
+{% endif %}
+{% block title %}
+{{ page_title }}
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col s12 ">
+            <div class="card grey lighten-4">
+                <div class="card-content">
+                    <div class="card-tabs ">
+                        <ul class="tabs tabs-fixed-width grey lighten-4">
+                            <li class="tab"><a class="grey-text {% if type == 'index' or type == 'info' %}active{% endif %}" onclick="openPage('{{ c.URL_BASE }}/resume/edit?id={{ user.id }}')">Profile</a></li>
+                            <li class="tab"><a class="grey-text {% if type == 'experiences' %}active{% endif %}" onclick="openPage('{{ c.URL_BASE }}/resume/edit/experiences?user_id={{ user.id }}')">Experiences</a></li>
+                            <li class="tab"><a class="grey-text {% if type == 'jobs' %}active{% endif %}" onclick="openPage('{{ c.URL_BASE }}/resume/edit/jobs?user_id={{ user.id }}')">Jobs</a></li>
+                            <li class="tab"><a class="grey-text {% if type == 'skills' %}active{% endif %}" onclick="openPage('{{ c.URL_BASE }}/resume/edit/skills?user_id={{ user.id }}')">Skills</a></li>
+                            <li class="tab"><a class="grey-text {% if type == 'hobbies' or type == 'hobby' %}active{% endif %}" onclick="openPage('{{ c.URL_BASE }}/resume/edit/hobbies?user_id={{ user.id }}')">Hobbies</a></li>
+                            <li class="tab"><a class="grey-text {% if type == 'contact' %}active{% endif %}" onclick="openPage('{{ c.URL_BASE }}/resume/edit/contact?user_id={{ user.id }}')">Contact Info</a></li>
+                        </ul>
+                    </div>
+                    <span class="card-title center"><h3>{{ card_title }}</h3></span>
+                    {% set weird_group = ['index', 'info', 'skills', 'hobbies', 'hobby'] %}
+                    {% set multiple_items = ['skills', 'hobbies', 'hobby'] %}
+                    {% if type not in weird_group %}
+                    <div class="input-field">
+                        <select onchange="openPage(value)">
+                            <option value="" disabled selected>Choose another {{ type }}</option>
+                            <option value="{{ c.URL_BASE }}/resume/edit/{{ type }}?user_id={{ user.id }}">New {{ type|title }}</option>
+                            {% for e in others %}
+                            <option  value="{{ c.URL_BASE }}/resume/edit/{{ type }}?id={{ e.id }}">{{ e.display_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    {% endif %}
+                    {% if type not in multiple_items %}
+                    <form action= "{{ '../edit' if type != 'index' else '' }}" method="post" enctype="multipart/form-data">
+                        {{ csrf_token() }}
+                        <input name="option" value="{{type}}" hidden />
+                        {% if not item.is_new and type != 'index' and type != 'info' %}
+                        <input name="id" value="{{ item.id }}" hidden />
+                        {% endif %}
+                        {% if type != 'index' and type != 'info' %}
+                        <input name="user_id" value="{{ user.id }}" hidden/>
+                        {% endif %}
+                    {% endif %}
+                    {% if type == 'jobs' %}
+                        <input name="link" value="link" hidden/>
+                        <div class="row">
+                            <div class="col s12">
+                                <label for="experience_name">Organization Name</label>
+                                <input type="text" name="name" id="experience_name" value="{{item.name}}" placeholder=""/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 input-field">
+                                <label for="start_date">Start Date</label>
+                                <input type="date" class="datepicker" id="start_date" name="start_date" value="{{item.start_date}}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 input-field">
+                                <label for="end_date">End Date</label>
+                                <input type="date" class="datepicker" id="end_date" name="end_date" value="{{item.end_date}}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12">
+                                <label for="job_title">Job Title</label>
+                                <input type="text" name="job_title" id="job_title" value="{{item.job_title}}" placeholder=""/>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col s12 input-field">
+                                <label for="desc">Job Description</label>
+                                <textarea placeholder="Job Description" class="writeblock" name="description" id="desc" >{{item.description}}</textarea>
+                            </div>
+                        </div>
+                    {% elif type == 'index' or type == 'info' %}
+                        <div class="row">
+                            <div class="col s12 m6">
+                                <label for="first_name">First Name</label>
+                                <input type="text" name="first_name" id="first_name" value="{{user.first_name}}" placeholder="First Name"/>
+                            </div>
+                            <div class="col s12 m6">
+                                <label for="last_name">Last Name</label>
+                                <input type="text" name="last_name" id="last_name" value="{{user.last_name}}" placeholder="Last Name"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 input-field">
+                                <label for="birthdate">Birth Date</label>
+                                <input type="date" class="datepicker" id="birthdate" name="birthdate" value="{{user.birthdate}}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div id="photo" class="col s12 l3 grey lighten-4 circle" style="margin-top: 0" >
+                                {% if user.uploaded_pic %}
+                                <img src="{{ user.pic_src }}" alt="" class="circle responsive-img " style="vertical-align: middle;">
+                                {% else %}
+                                <img src="../static/images/avatar.jpg" alt="" class="circle responsive-img " style="vertical-align: middle">
+                                {% endif %}
+                            </div>
+                            <div class="col s9 input-field">
+                                <div class="file-field input-field">
+                                  <div class="btn">
+                                    <span>{% if user.uploaded_pic %}New {% endif %}File</span>
+                                    <input type="file" name="bio_pic">
+                                  </div>
+                                  <div class="file-path-wrapper">
+                                    <input class="file-path validate" type="text">
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 input-field">
+                                <label for="about_me">About Me</label>
+                                <textarea name="about_me" class="writeblock" id="about_me" >{{user.about_me}}</textarea>
+                            </div>
+                        </div>
+                    {% elif type == 'contact' %}
+                        <div class="row">
+                            <div class="col s12 m6">
+                                <label for="field_name">Field Name</label>
+                                <input type="text" name="name" id="field_name" value="{{item.name}}" placeholder="Name of Field Ex. Email"/>
+                            </div>
+                            <div class="col s12 m6">
+                                <label for="href">HREF Value</label>
+                                <input type="text" name="link" id="href" value="{{item.link}}" placeholder="mailto:you@you.com"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 input-field">
+                                <label for="desc">Description</label>
+                                <textarea name="dsecription" class="writeblock" id="desc" >{{item.description}}</textarea>
+                            </div>
+                        </div>
+                    {% elif type == 'experiences' %}
+                        <div class="row">
+                            <div class="col s12">
+                                <label for="experience_name">Experience Name</label>
+                                <input type="text" name="name" id="experience_name" value="{{item.name}}" placeholder="Title of Experience"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 input-field">
+                                <label for="date">Date Experience</label>
+                                <input type="date" class="datepicker" id="date" name="date" value="{{item.date}}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 input-field">
+                                <label for="desc">About Me</label>
+                                <textarea name="description" class="writeblock" id="desc" >{{item.description}}</textarea>
+                            </div>
+                        </div>
+                    {% elif type == 'skills' %}
+                        <div class="row">
+                            <form action= "../edit" method="post">
+                            {{ csrf_token() }}
+                            <input name="option" value="{{type}}" hidden />
+                            <input name="user_id" value="{{ user.id }}" hidden/>
+
+                         <div class="col s12 l6">
+                        <div class="card-panel">
+                             <div class="row">
+
+                            <div class="col s12">
+                                <label for="skill_name">Skill Name</label>
+                                <input name="name" id="skill_name" value="" placeholder="New Skill Name"/>
+                            </div>
+                            <div class="col s12">
+                                <p class="range-field">
+                                    <input type="range" min="0" max="100" value="50" name="level" />
+
+                                    <span class="left">Amateur</span><span class="right">Master</span>
+                                </p>
+                            </div>
+                        </div>
+                             <div class="row center">
+                                 <div class="col s6 input-field">
+                                    <button class="waves-effect waves-light btn" >Save</button>
+                                </div>
+                             </div>
+                        </div>
+                     </div>
+                         </form>
+                        {% for each in others %}
+                         <form action= "../edit" method="post">
+                            {{ csrf_token() }}
+                            <input name="option" value="{{type}}" hidden />
+                            <input name="id" value="{{ each.id }}" hidden />
+                            <input name="user_id" value="{{ user.id }}" hidden/>
+
+                         <div class="col s12 l6">
+                        <div class="card-panel">
+                             <div class="row">
+
+                            <div class="col s12">
+                                <label for="skill_name">Skill Name</label>
+                                <input name="name" id="skill_name" value="{{each.name}}" />
+                            </div>
+                            <div class="col s12">
+                                <p class="range-field">
+                                    <input type="range" min="0" max="100" value="{[ each.level }}" name="level" />
+
+                                    <span class="left">Amateur</span><span class="right">Master</span>
+                                </p>
+                            </div>
+                        </div>
+                             <div class="row center">
+                                 <div class="col s6 input-field">
+                                    <button class="waves-effect waves-light btn" >Save</button>
+                                </div>
+                                 </form>
+                                 <div class="col s6 input-field">
+                                 <form action="../delete">
+                                    <input name="option" value="{{ type }}" hidden />
+                                    <input name="id" value="{{ each.id }}" hidden />
+                                    {{ csrf_token() }}
+                                    <button class="waves-effect waves-light btn">Delete</button>
+                                </form>
+                            </div>
+                             </div>
+                        </div>
+                     </div>
+
+
+                        {% endfor %}
+
+                            </div>
+                    {% elif type == 'hobbies' or type == 'hobby' %}
+                    <div class="row">
+                        <form action= "../edit" method="post">
+                        {{ csrf_token() }}
+                        <input name="option" value="{{type}}" hidden />
+                        <input name="user_id" value="{{ user.id }}" hidden/>
+
+                     <div class="col s6 l3">
+                    <div class="card-panel">
+                         <div class="row">
+
+                        <div class="col s12">
+                            <label for="hobby_name">Hobby Name</label>
+                            <input name="name" id="hobby_name" value="" placeholder="New Hobby Name"/>
+                        </div>
+                    </div>
+                         <div class="row center">
+                             <div class="col s6 input-field">
+                                <button class="waves-effect waves-light btn" >Save</button>
+                            </div>
+                         </div>
+                    </div>
+                 </div>
+                     </form>
+                    {% for each in others %}
+                     <form action= "../edit" method="post">
+                        {{ csrf_token() }}
+                        <input name="option" value="{{type}}" hidden />
+                        <input name="id" value="{{ each.id }}" hidden />
+                        <input name="user_id" value="{{ user.id }}" hidden/>
+
+                     <div class="col s6 l3">
+                    <div class="card-panel">
+                         <div class="row">
+
+                        <div class="col s12">
+                            <label for="hobby_name">Hobby Name</label>
+                            <input name="name" id="hobby_name" value="{{each.name}}" />
+                        </div>
+                    </div>
+                         <div class="row center">
+                             <div class="col s6 input-field">
+                                <button class="waves-effect waves-light btn" >Save</button>
+                            </div>
+                             <div class="col s6 input-field">
+                             <form action="../delete">
+                                <input name="option" value="{{ type }}" hidden />
+                                <input name="id" value="{{ each.id }}" hidden />
+                                {{ csrf_token() }}
+                                <button class="waves-effect waves-light btn">Delete</button>
+                            </form>
+                        </div>
+                         </div>
+                    </div>
+                 </div>
+                     </form>
+
+                    {% endfor %}
+
+                        </div>
+                {% endif %}
+                        {% if type not in multiple_items %}
+                        <div class="row">
+                            <div class="col s6 input-field">
+                                <button class="waves-effect waves-light btn right" >Save</button>
+                            </div>
+                            </form>
+                            {% if type != 'index' and type != 'info' %}
+                            <div class="col s6 input-field">
+                                 <form action="../delete">
+                                    <input name="option" value="{{ type }}" hidden />
+                                    <input name="id" value="{{ item.id }}" hidden />
+                                    {{ csrf_token() }}
+                                    <button class="waves-effect waves-light btn">Delete</button>
+                                </form>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+
+    var openPage = function(value){
+      window.open(value, "_self");
+    };
+
+</script>
+{% endblock %}
+
+{% block jquery_ready %}
+$('select').material_select();
+
+$('.datepicker').pickadate({
+    selectMonths: true, // Creates a dropdown to control month
+    selectYears: 115 // Creates a dropdown of 15 years to control year
+  });
+
+$('.writeblock').trumbowyg();
+{% endblock %}
