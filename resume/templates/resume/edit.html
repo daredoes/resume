@@ -24,12 +24,12 @@
                 <div class="card-content">
                     <div class="card-tabs ">
                         <ul class="tabs tabs-fixed-width grey lighten-4">
-                            <li class="tab"><a class="grey-text {% if type == 'index' or type == 'info' %}active{% endif %}" onclick="openPage('{{ c.URL_BASE }}/resume/edit?id={{ user.id }}')">Profile</a></li>
-                            <li class="tab"><a class="grey-text {% if type == 'experiences' %}active{% endif %}" onclick="openPage('{{ c.URL_BASE }}/resume/edit/experiences?user_id={{ user.id }}')">Experiences</a></li>
-                            <li class="tab"><a class="grey-text {% if type == 'jobs' %}active{% endif %}" onclick="openPage('{{ c.URL_BASE }}/resume/edit/jobs?user_id={{ user.id }}')">Jobs</a></li>
-                            <li class="tab"><a class="grey-text {% if type == 'skills' %}active{% endif %}" onclick="openPage('{{ c.URL_BASE }}/resume/edit/skills?user_id={{ user.id }}')">Skills</a></li>
-                            <li class="tab"><a class="grey-text {% if type == 'hobbies' or type == 'hobby' %}active{% endif %}" onclick="openPage('{{ c.URL_BASE }}/resume/edit/hobbies?user_id={{ user.id }}')">Hobbies</a></li>
-                            <li class="tab"><a class="grey-text {% if type == 'contact' %}active{% endif %}" onclick="openPage('{{ c.URL_BASE }}/resume/edit/contact?user_id={{ user.id }}')">Contact Info</a></li>
+                            <li class="tab"><a class="grey-text {% if type == 'index' or type == 'info' %}active{% endif %}" onclick="openPage('{{ c.PATH }}/resume/edit?id={{ user.id }}')">Profile</a></li>
+                            <li class="tab"><a class="grey-text {% if type == 'experiences' %}active{% endif %}" onclick="openPage('{{ c.PATH }}/resume/edit/experiences?user_id={{ user.id }}')">Experiences</a></li>
+                            <li class="tab"><a class="grey-text {% if type == 'jobs' %}active{% endif %}" onclick="openPage('{{ c.PATH }}/resume/edit/jobs?user_id={{ user.id }}')">Jobs</a></li>
+                            <li class="tab"><a class="grey-text {% if type == 'skills' %}active{% endif %}" onclick="openPage('{{ c.PATH }}/resume/edit/skills?user_id={{ user.id }}')">Skills</a></li>
+                            <li class="tab"><a class="grey-text {% if type == 'hobbies' or type == 'hobby' %}active{% endif %}" onclick="openPage('{{ c.PATH }}/resume/edit/hobbies?user_id={{ user.id }}')">Hobbies</a></li>
+                            <li class="tab"><a class="grey-text {% if type == 'contact' %}active{% endif %}" onclick="openPage('{{ c.PATH }}/resume/edit/contact?user_id={{ user.id }}')">Contact Info</a></li>
                         </ul>
                     </div>
                     <span class="card-title center"><h3>{{ card_title }}</h3></span>
@@ -39,9 +39,9 @@
                     <div class="input-field">
                         <select onchange="openPage(value)">
                             <option value="" disabled selected>Choose another {{ type }}</option>
-                            <option value="{{ c.URL_BASE }}/resume/edit/{{ type }}?user_id={{ user.id }}">New {{ type|title }}</option>
+                            <option value="{{ c.PATH }}/resume/edit/{{ type }}?user_id={{ user.id }}">New {{ type|title }}</option>
                             {% for e in others %}
-                            <option  value="{{ c.URL_BASE }}/resume/edit/{{ type }}?id={{ e.id }}">{{ e.display_name }}</option>
+                            <option  value="{{ c.PATH }}/resume/edit/{{ type }}?id={{ e.id }}">{{ e.display_name }}</option>
                             {% endfor %}
                         </select>
                     </div>
