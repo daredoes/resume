@@ -200,7 +200,7 @@
                         </div>
                      </div>
                          </form>
-                        {% for each in others %}
+                        {% for each in others|sort(attribute='level') %}
                          <form action= "../edit" method="post">
                             {{ csrf_token() }}
                             <input name="option" value="{{type}}" hidden />
