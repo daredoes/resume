@@ -127,7 +127,7 @@
                         <div class="row">
                             <div class="col s5 m3 l4 xl3">
                                 <ul class="collection grey lighten-4" style="border: 0;">
-                                    {% for e in user.job_experiences %}
+                                    {% for e in user.job_experiences|sort(attribute='end_date') %}
                                     <li class="collection-item grey lighten-4 no-padding" >
                                         <a href="{{ e.link }}" class="experience-title">{{ e.name }}</a>
                                         <br>
@@ -138,7 +138,7 @@
                             </div>
                             <div class="col s7 m9 l8 xl9">
                                 <ul class="collection grey lighten-4" style="border: 0;">
-                                    {% for e in user.job_experiences %}
+                                    {% for e in user.job_experiences|sort(attribute='end_date') %}
                                     <li class="collection-item grey lighten-4 no-padding" >
                                         <span class="experience-title">{{ e.job_title }}</span><br>
                                         {{ e.description|rerender|safe }}
@@ -154,7 +154,7 @@
                     <div class="row">
                     <p class="resume-section-header heavy green-text  text-darken-2">//Contact</p><hr>
                         <ul class="collection grey lighten-4 " style="border: 0;">
-                        {% for contact in user.contact_items %}
+                        {% for contact in user.contact_items|sort(attribute='name') %}
                             <li class="collection-item avatar grey lighten-4" style="margin-bottom: -1em;">
                                 <a href="{{ contact.link }}"><i class="fa {{ contact.icon }} circle blue lighten-1"></i></a>
                             <span class="title heavy">{{ contact.name }}</span>
