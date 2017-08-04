@@ -3,7 +3,7 @@
 <html>
 <head>
     {{ macros.ie7_compatibility_check() }}
-    <title>CV - {% block title %}{% endblock %}</title>
+    <title>CV - {% block title %} {{ user.full_name }}{% endblock %}</title>
     <link rel="icon" href="../static/images/favicon.png" type="image/x-icon" />
 
     {% block head_styles %}
@@ -108,7 +108,7 @@
                             {% for e in user.life_experiences %}
                                 <li class="collection-item grey lighten-4 no-padding" style="border:0; padding: 1em 0em 5em 0.05em !important;" >
                                     <div class="left col no-padding m1 s2 l2">
-                                        <span class="badge boxed left">{{ e.year }} </span>
+                                        <span class="badge boxed grey darken-1">{{ e.year }} </span>
                                     </div>
                                     <div class="col m11 s10 l10">
                                         <span class="experience-title">{{ e.name|rerender(user)|safe }}</span>
@@ -152,7 +152,7 @@
                 </div>
                 <div class="col s12 l5">
                     <div class="row">
-                    <p class="resume-section-header heavy green-text  text-darken-2">//Contact</p>
+                    <p class="resume-section-header heavy green-text  text-darken-2">//Contact</p><hr>
                         <ul class="collection grey lighten-4 " style="border: 0;">
                         {% for contact in user.contact_items %}
                             <li class="collection-item avatar grey lighten-4" style="margin-bottom: -1em;">
@@ -165,6 +165,29 @@
                     </div><div class="row">
                     <p class="resume-section-header heavy green-text  text-darken-2">//Skills</p>
                     <hr>
+                    <div class="row resume-bar-level-text grey-text text-darken-2">
+                        <div class="col s3 center" style="border-top: double; border-left: double">
+                            Beginner
+                        </div>
+                        <div class="col s3 center" style="border-top: double; border-left: double">
+                            Proficient
+                        </div>
+                        <div class="col s3 center" style="border-top: double; border-left: double; border-right: double;">
+                            Expert
+                        </div>
+                        <div class="col s3 center" style="border-top: double; border-right: double">
+                            Master
+                        </div>
+                    </div>
+                    <div class="row">
+                    {% for skill in user.skills|sort(attribute='level') %}
+                        <div class="resume-bar-holder">
+                            <div class="resume-bar green" style="width: {{ skill.level }}%;">
+                                <span class=" resume-bar-text">{{ skill.name }}</span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    </div>
 
                     </div><div class="row">
                     <p class="resume-section-header heavy green-text  text-darken-2">//Hobbies</p><hr>
