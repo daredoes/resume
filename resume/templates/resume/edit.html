@@ -145,11 +145,18 @@
                             </div>
                         </div>
                         <div class="row">
+                            <div class="input-field col s12">
+                                <input type="text" id="autocomplete-input" class="autocomplete" value="{{ item.icon }}" name="icon">
+                                <label for="autocomplete-input">Font Awesome Icons</label>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col s12 input-field">
                                 <label for="desc">Description</label>
                                 <textarea name="description" class="writeblock" id="desc" >{{item.description}}</textarea>
                             </div>
                         </div>
+
                     {% elif type == 'experiences' %}
                         <div class="row">
                             <div class="col s12">
@@ -348,4 +355,16 @@ $('.datepicker').pickadate({
   });
 
 $('.writeblock').trumbowyg();
+
+$('input.autocomplete').autocomplete({
+    data: {
+        {% for icon in c.FONT_AWESOME_ICONS|sort %}
+            "{{ icon }}": null{% if not loop.last %},{% endif %}
+        {% endfor %}
+    },
+    limit: 20,
+    onAutocomplete: function(val){
+       
+    },
+});
 {% endblock %}

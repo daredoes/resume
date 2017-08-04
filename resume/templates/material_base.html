@@ -105,7 +105,7 @@
                     <div class="row">
                     <p class="resume-section-header heavy green-text  text-darken-2">//Education</p>
                         <ul class="collection grey lighten-4" style="border: 0;">
-                            {% for e in user.life_experiences %}
+                            {% for e in user.life_experiences|sort(attribute='year') %}
                                 <li class="collection-item grey lighten-4 no-padding" style="border:0; padding: 1em 0em 5em 0.05em !important;" >
                                     <div class="left col no-padding m1 s2 l2">
                                         <span class="badge boxed grey darken-1">{{ e.year }} </span>
