@@ -156,7 +156,7 @@
                         <ul class="collection grey lighten-4 " style="border: 0;">
                         {% for contact in user.contact_items %}
                             <li class="collection-item avatar grey lighten-4" style="margin-bottom: -1em;">
-                                <a href="{{ contact.link }}"><i class="fa fa-{{ contact.icon }} circle blue lighten-1"></i></a>
+                                <a href="{{ contact.link }}"><i class="fa {{ contact.icon }} circle blue lighten-1"></i></a>
                             <span class="title heavy">{{ contact.name }}</span>
                                 <p>{{ contact.description }}</p>
                             </li>
