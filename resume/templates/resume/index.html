@@ -51,22 +51,23 @@ CV - {{ user.full_name }}
                     </div>
                     <div class="row">
                     <p class="resume-section-header heavy green-text  text-darken-2">//Experiences</p>
-                        <div class="row">
-                            <div class="col s12">
-                                {% for e in user.job_experiences|sort(attribute='end_date') %}
-                                <div class="card grey lighten-4">
-                                    <div class="card-content black-text">
-                                        <span class="card-title"><a href="{{ e.link }}">{{ e.name }} - {{ e.job_title}}</a></span>
-                                        {{ e.description|rerender(user)|safe}}
+                        <div class="" style="overflow-y: scroll; max-height: 10rem;">
+                            <div class="row">
+                                <div class="col s12">
+                                    {% for e in user.job_experiences|sort(attribute='end_date') %}
+                                    <div class="card grey lighten-4">
+                                        <div class="card-content black-text">
+                                            <span class="card-title"><a href="{{ e.link }}">{{ e.name }} - {{ e.job_title}}</a></span>
+                                            {{ e.description|rerender(user)|safe}}
+                                        </div>
+                                        <div class="card-action">
+                                            <span class="">{{ e.display_date }}</span>
+                                        </div>
                                     </div>
-                                    <div class="card-action">
-                                        <span class="">{{ e.display_date }}</span>
-                                    </div>
+                                    {% endfor %}
                                 </div>
-                                {% endfor %}
                             </div>
                         </div>
-
                     </div>
                 </div>
                 <div class="col s12 l5">
