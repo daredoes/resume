@@ -51,7 +51,7 @@ CV - {{ user.full_name }}
                     </div>
                     <div class="row">
                     <p class="resume-section-header heavy green-text  text-darken-2">//Experiences</p>
-                        <div class="" style="overflow-y: scroll; max-height: 10rem;">
+                        <div class="scroll-box">
                             <div class="row">
                                 <div class="col s12">
                                     {% for e in user.job_experiences|sort(attribute='end_date') %}
