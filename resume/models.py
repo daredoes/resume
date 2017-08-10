@@ -71,11 +71,13 @@ class JobExperience(MainModel):
     def display_date(self):
         result = ""
         if self.end_date:
-            if self.start_date == self.end_date:
+            if self.start_date > self.end_date:
+                result = "%s - Current" % (self.start_date.strftime("%b %Y"))
+            elif self.start_date == self.end_date:
                 result = self.start_date.strftime("%b %d %Y")
             elif self.start_date.year == self.end_date.year:
                 if self.start_date.month == self.end_date.month:
-                    result = "{} - {}".format(self.start_date.strftime("%b %d"), self.end_date.strftime("%d %Y"))
+                    result = "{} - {}".format(self.start_date.strftime("%b %d"), self.end_date.strftime("%d, %Y"))
                 else:
                     result = "%s - %s" % (self.start_date.strftime("%b"), self.end_date.strftime("%b %Y"))
             else:
