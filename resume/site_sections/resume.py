@@ -1,7 +1,7 @@
 from resume import *
 
 
-@all_renderable(c.ACCOUNTS)
+@all_renderable(c.RESUME)
 class Root:
     def index(self, session, id=None, message=''):
         if id:
