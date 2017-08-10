@@ -45,7 +45,7 @@ class ContactItem(MainModel):
     name = Column(UnicodeText)
     link = Column(UnicodeText)
     description = Column(UnicodeText)
-    icon = Column(UnicodeText, default="link")
+    icon = Column(UnicodeText, default="fa-link")
     user_id = Column(UUID, ForeignKey('user.id'))
 
     @property
