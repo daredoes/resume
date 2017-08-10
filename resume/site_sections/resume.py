@@ -34,8 +34,10 @@ class Root:
             'user': user
         }
 
+    @site_mappable
     def edit(self, option='index', session=None, bio_pic=None, message='', return_to='', **params):
         if option:
+            option = option[0] if isinstance(option, list) else option
             options = {
                 "index": session.user,
                 "info": session.user,
@@ -81,7 +83,7 @@ class Root:
                 "hobby": user.hobbies,
             }
             others = user_items[template]
-            if 'name' in params:
+            if 'name' in params or 'first_name' in params:
                 message = ''
                 if not message:
                     message = check(item)

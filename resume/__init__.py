@@ -9,10 +9,9 @@ static_overrides(join(resume_config['module_root'], 'static'))
 template_overrides(join(resume_config['module_root'], 'templates'))
 mount_site_sections(resume_config['module_root'])
 
-c.MENU['{{ c.CURRENT_ADMIN.first_name }} {{ c.CURRENT_ADMIN.last_name }}'].append_menu_item(
-    MenuItem(name='My Resume', href='{{ c.PATH }}/resume/?id={{ c.CURRENT_ADMIN.id }}')
-)
+resume_menu = MenuItem(name='Resume', submenu=[
+    MenuItem(name='Edit', href='{{ c.PATH }}/resume/edit?id={{ c.CURRENT_ADMIN.id }}'),
+    MenuItem(name='View', href='{{ c.PATH }}/resume/?id={{ c.CURRENT_ADMIN.id }}')
+])
 
-c.MENU['{{ c.CURRENT_ADMIN.first_name }} {{ c.CURRENT_ADMIN.last_name }}'].append_menu_item(
-    MenuItem(name='Edit Resume', href='{{ c.PATH }}/resume/edit?id={{ c.CURRENT_ADMIN.id }}')
-)
+c.MENU.append_menu_item(resume_menu)
