@@ -278,7 +278,7 @@
                     </div>
                  </div>
                      </form>
-                    {% for each in others %}
+                    {% for each in others|sort(attribute='name') %}
                      <form action= "../edit" method="post">
                         {{ csrf_token() }}
                         <input name="option" value="{{type}}" hidden />
@@ -295,11 +295,11 @@
                         </div>
                     </div>
                          <div class="row center">
-                             <div class="col s6 input-field">
+                             <div class="col s12 input-field">
                                 <button class="waves-effect waves-light btn" >Save</button>
                             </div>
                               </form>
-                             <div class="col s6 input-field">
+                             <div class="col s12 input-field">
                              <form action="{{ c.PATH }}/resume/delete">
                                 <input name="option" value="{{ type }}" hidden />
                                 <input name="id" value="{{ each.id }}" hidden />

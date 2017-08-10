@@ -111,7 +111,7 @@ CV - {{ user.full_name }}
 
                     </div><div class="row">
                     <p class="resume-section-header heavy green-text  text-darken-2">//Hobbies</p><hr>
-                    {% for hobby in user.hobbies %}
+                    {% for hobby in user.hobbies|sort(attribute='name') %}
                     <div class="chip">
                         <i class="fa fa-heart"></i> {{hobby.name}}
                     </div>
