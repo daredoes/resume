@@ -18,8 +18,7 @@ class Root:
             user = session.query(User).first()
         return {
             'message': message,
-            'user': user,
-            'suffix': '_alt'
+            'user': user
         }
 
     def login(self, session, message='', original_location=None, **params):
