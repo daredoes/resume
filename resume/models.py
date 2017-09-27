@@ -47,6 +47,7 @@ class ContactItem(MainModel):
     description = Column(UnicodeText)
     icon = Column(UnicodeText, default="fa-link")
     user_id = Column(UUID, ForeignKey('user.id'))
+    printable = Column(Boolean, default=False)
 
     @property
     def display_name(self):
@@ -62,6 +63,7 @@ class JobExperience(MainModel):
     start_date = Column(Date)
     end_date = Column(Date, default=None, nullable=True)
     job_title = Column(UnicodeText)
+    printable = Column(Boolean, default=False)
 
     @property
     def display_name(self):
@@ -94,6 +96,7 @@ class LifeExperience(MainModel):
     icon = Column(UnicodeText, default="link")
     user_id = Column(UUID, ForeignKey('user.id'))
     date = Column(Date, default=datetime.now(UTC))
+    printable = Column(Boolean, default=False)
 
     @property
     def display_name(self):
@@ -112,6 +115,7 @@ class LifeExperience(MainModel):
 class Hobby(MainModel):
     name = Column(UnicodeText)
     user_id = Column(UUID, ForeignKey('user.id'))
+    printable = Column(Boolean, default=False)
 
     @property
     def display_name(self):
@@ -122,12 +126,14 @@ class Language(MainModel):
     name = Column(UnicodeText)
     user_id = Column(UUID, ForeignKey('user.id'))
     level = Column(Integer, default=99)
+    printable = Column(Boolean, default=False)
 
 
 class Skill(MainModel):
     name = Column(UnicodeText)
     user_id = Column(UUID, ForeignKey('user.id'))
     level = Column(Integer, default=99)
+    printable = Column(Boolean, default=False)
 
     @property
     def display_name(self):

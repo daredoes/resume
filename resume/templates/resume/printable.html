@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block head_styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ c.PATH }}/static/css/print.css" />
+{% endblock %}
+{% block title %}
+CV - {{ user.full_name }}
+{% endblock %}
+{% block content %}
+<div class="title">{{ user.full_name }}</div>
+{% endblock %}

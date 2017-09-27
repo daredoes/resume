@@ -1,10 +1,61 @@
 {% extends "base.html" %}
+{% block head_styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ c.PATH }}/static/css/print.css" />
+{% endblock %}
 {% block title %}
 CV - {{ user.full_name }}
 {% endblock %}
 {% block content %}
 <div id="mainContainer1" class="container-fluid resume-container grey darken-1">
-        <div class="card grey lighten-4">
+        <div class="print-only">
+            <div class="" id="print-header">
+                <h1 class="">{{ user.full_name }}</h1>
+                <div style="margin-top: -1.5rem;" class="print-header-items print-info">
+                    <p class="condensed">{{user.address if user.address else "123 DareDoes Site, Internet, WRLD 01101"}}</p>
+                    <p class="condensed">{{user.cellphone if user.cellphone else "###-###-####"}} | {{user.email}}</p>
+                    <p class="condensed">
+                    {% for contact in user.contact_items|sort(attribute='name')|rejectattr("printable", 'equalto', false) %}
+                        {{contact.name|title}}: {{contact.description|rerender(obj=user)}} {% if not loop.last %}|{% endif %}
+                    {% endfor %}
+                    </p>
+                </div>
+            </div>
+            <hr class="condensed">
+            <div>
+                {{ user.about_me|rerender(obj=user)|safe }}
+            </div>
+            <h5 class="print-header">Education</h5>
+            <hr class="half-condensed">
+            <div class="print-header-items">
+                {% for exp in user.life_experiences|sort(attribute='year')|rejectattr("printable", 'equalto', false) %}
+                        <h6 class="title">{{exp.name}} <span class="right">{{ exp.date}}</span></h6>
+                        <div class="body condensed">{{ exp.description|rerender(obj=user)|safe }}</div>
+                {% endfor %}
+            </div>
+            <h5 class="print-header">Experiences</h5>
+            <hr class="half-condensed">
+            <div class="print-header-items">
+                {% for exp in user.job_experiences|sort(attribute='end_date')|rejectattr("printable", 'equalto', false) %}
+                        <h6 class="title">{{exp.name}} - {{ exp.job_title}} <span class="right">{{ exp.display_date}}</span></h6>
+                        <div class="body condensed">{{ exp.description|rerender(obj=user)|safe }}</div>
+                {% endfor %}
+            </div>
+            <div>
+            <h5 class="print-header">Skills</h5>
+                    <hr class="half-condensed">
+                {% for skill in user.skills|sort(attribute='level')|rejectattr("printable", 'equalto', false) %}
+                    <span>{{ skill.name }} •
+                        {% if skill.level < 25 %}Beginner
+                        {% elif skill.level < 50 %}Proficient
+                        {% elif skill.level < 75 %}Advanced
+                        {% elif skill.level <= 100 %}Master{%endif%}
+                    </span>{% if not loop.last %}<span> | </span>{%endif%}
+                {% endfor %}
+
+            </div>
+        </div>
+        <div class="card grey lighten-4 no-print">
             <div class="row center">
                 <div id="photo" class="grey lighten-4 circle" >
                     {% if user.uploaded_pic %}
@@ -13,10 +64,10 @@ CV - {{ user.full_name }}
                     <img src="../static/images/avatar.jpg" alt="" class="circle responsive-img " style="vertical-align: middle">
                     {% endif %}
                 </div>
-                <div class="col s12">
+                <div class="col s12 no-print">
 
                     <p class="center heavy" style="margin-top: -0.2em; margin-bottom: 0; font-size: 2.5em;">Hello,</p>
-                    <p class="center heavy" style="margin-top: 0; font-size: 2em;">My name is <span class="green-text  text-darken-2">{{ user.full_name }}</span>
+                    <p class="center heavy" style="margin-top: 0; font-size: 2em;">My name is <span class="green-text  text-darken-2 print">{{ user.full_name }}</span>
                         <sup class="grey-text text-lighten-1">{{ user.age|int }}YO</sup> and this is
                         {%if c.CURRENT_ADMIN.id == user.id %}<a class="green-text text-darken-2" href="../resume/edit?id={{ user.id }}">my</a>{% else %}my{% endif %} resume/cv</p>
                 </div>

@@ -206,6 +206,11 @@
                                  <div class="col s6 input-field">
                                     <button class="waves-effect waves-light btn" >Save</button>
                                 </div>
+                                 <div class="col s6">
+                                     <input type="checkbox" name="printable" value="False" id="printableh" hidden/>
+                                     <input onchange="printableCheck(this)" type="checkbox" checked value="True" name="printable" id="printable"/>
+                                     <label for="printable">Printable?</label>
+                                 </div>
                              </div>
                         </div>
                      </div>
@@ -221,10 +226,15 @@
                         <div class="card-panel">
                              <div class="row">
 
-                            <div class="col s12">
+                            <div class="col s6">
                                 <label for="skill_name">Skill Name</label>
                                 <input name="name" id="skill_name" value="{{each.name}}" />
                             </div>
+                                 <div class="col s6">
+                                     <input type="checkbox" hidden name="printable" {% if not each.printable %}checked{%endif%} value="False" id="printable{{loop.index}}h"/>
+                                     <input onchange="printableCheck(this)" type="checkbox" {% if each.printable %}checked{%endif%} value="True" name="printable" id="printable{{loop.index}}"/>
+                                     <label for="printable{{loop.index}}">Printable?</label>
+                                 </div>
                             <div class="col s12">
                                 <p class="range-field">
                                     <input type="range" min="0" max="100" value="{{ each.level }}" name="level" />
@@ -232,6 +242,7 @@
                                     <span class="left">Amateur</span><span class="right">Master</span>
                                 </p>
                             </div>
+
                         </div>
                              <div class="row center">
                                  <div class="col s6 input-field">
@@ -261,7 +272,7 @@
                         <input name="option" value="{{type}}" hidden />
                         <input name="user_id" value="{{ user.id }}" hidden/>
 
-                     <div class="col s6 l3">
+                     <div class="col s6 l4">
                     <div class="card-panel">
                          <div class="row">
 
@@ -270,10 +281,16 @@
                             <input name="name" id="hobby_name" value="" placeholder="New Hobby Name"/>
                         </div>
                     </div>
+                        <div class="col s6">
+                                     <input type="checkbox" hidden name="printable" checked value="False" id="printableh"/>
+                                     <input onchange="printableCheck(this)" type="checkbox" value="True" name="printable" id="printable"/>
+                                     <label for="printable">Printable?</label>
+                                 </div>
                          <div class="row center">
                              <div class="col s6 input-field">
                                 <button class="waves-effect waves-light btn" >Save</button>
                             </div>
+
                          </div>
                     </div>
                  </div>
@@ -290,10 +307,17 @@
                          <div class="row">
 
                         <div class="col s12">
-                            <label for="hobby_name">Hobby Name</label>
-                            <input name="name" id="hobby_name" value="{{each.name}}" />
+                            <label for="hobby_name{{loop.index}}">Hobby Name</label>
+                            <input name="name" id="hobby_name{{loop.index}}" value="{{each.name}}" />
                         </div>
                     </div>
+                        <div class="row">
+                            <div class="col s6">
+                                 <input type="checkbox" hidden name="printable" {% if not each.printable %}checked{%endif%} value="False" id="printable{{loop.index}}h"/>
+                                 <input onchange="printableCheck(this)" type="checkbox" {% if each.printable %}checked{%endif%} value="True" name="printable" id="printable{{loop.index}}"/>
+                                 <label for="printable{{loop.index}}">Printable?</label>
+                             </div>
+                        </div>
                          <div class="row center">
                              <div class="col s12 input-field">
                                 <button class="waves-effect waves-light btn" >Save</button>
@@ -317,6 +341,13 @@
                         </div>
                 {% endif %}
                         {% if type not in multiple_items %}
+                        <div class="row">
+                            <div class="col s6">
+                                     <input type="checkbox" hidden name="printable" {% if not item.printable %}checked{%endif%} value="False" id="printableh"/>
+                                     <input onchange="printableCheck(this)" type="checkbox" {% if item.printable %}checked{%endif%} value="True" name="printable" id="printable"/>
+                                     <label for="printable">Printable?</label>
+                                 </div>
+                        </div>
                         <div class="row">
                             <div class="col s6 input-field">
                                 <button class="waves-effect waves-light btn right" >Save</button>
@@ -345,6 +376,21 @@
 
     var openPage = function(value){
       window.open(value, "_self");
+    };
+
+    var printableCheck = function(element){
+        var hiddenID = element.id + "h";
+        var hiddenElem = $("#" + hiddenID);
+
+        console.log(element.checked);
+        if(element.checked){
+
+            hiddenElem.prop("checked", false);
+        }
+        else{
+            hiddenElem.prop("checked", true);
+        }
+        console.log(hiddenElem.prop('checked'));
     };
 
 </script>

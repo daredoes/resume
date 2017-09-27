@@ -3,6 +3,7 @@ from resume import *
 
 @all_renderable(c.RESUME)
 class Root:
+    @unrestricted
     def index(self, session, id=None, message=''):
         if id:
             user = session.query(User).filter(User.id == id).first()
@@ -12,6 +13,19 @@ class Root:
             'message': message,
             'user': user
         }
+
+    @site_mappable
+    @unrestricted
+    def printable(self, session, id=None, message=''):
+        if not id:
+            user = session.query(User).first()
+        else:
+            user = session.user(id)
+        return {
+            'message': message,
+            'user': user
+        }
+
 
     @site_mappable
     def form(self, session, message='', return_to='', **params):
