@@ -6,26 +6,14 @@ class Root:
     @unrestricted
     def index(self, session, id=None, message=''):
         if id:
-            user = session.query(User).filter(User.id == id).first()
+            user = session.admin_user()
+            user = user if user else session.query(User).filter(User.id == id).first()
         else:
             user = session.query(User).first()
         return {
             'message': message,
             'user': user
         }
-
-    @site_mappable
-    @unrestricted
-    def printable(self, session, id=None, message=''):
-        if not id:
-            user = session.query(User).first()
-        else:
-            user = session.user(id)
-        return {
-            'message': message,
-            'user': user
-        }
-
 
     @site_mappable
     def form(self, session, message='', return_to='', **params):

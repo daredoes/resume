@@ -12,11 +12,10 @@ CV - {{ user.full_name }}
             <div class="" id="print-header">
                 <h1 class="">{{ user.full_name }}</h1>
                 <div style="margin-top: -1.5rem;" class="print-header-items print-info">
-                    <p class="condensed">{{user.address if user.address else "123 DareDoes Site, Internet, WRLD 01101"}}</p>
-                    <p class="condensed">{{user.cellphone if user.cellphone else "###-###-####"}} | {{user.email}}</p>
+                    <p class="condensed">{{user.address.name if user.address else "123 DareDoes Site, Internet, WRLD 01101"}}</p>
                     <p class="condensed">
-                    {% for contact in user.contact_items|sort(attribute='name')|rejectattr("printable", 'equalto', false) %}
-                        {{contact.name|title}}: {{contact.description|rerender(obj=user)}} {% if not loop.last %}|{% endif %}
+                    {% for contact in user.contact_items|sort(attribute='priority')|rejectattr("printable", 'equalto', false) %}
+                        {{contact.description|rerender(obj=user)}} {% if not loop.last %}|{% endif %}
                     {% endfor %}
                     </p>
                 </div>
@@ -28,7 +27,7 @@ CV - {{ user.full_name }}
             <h5 class="print-header">Education</h5>
             <hr class="half-condensed">
             <div class="print-header-items">
-                {% for exp in user.life_experiences|sort(attribute='year')|rejectattr("printable", 'equalto', false) %}
+                {% for exp in user.life_experiences|sort(attribute='priority')|rejectattr("printable", 'equalto', false) %}
                         <h6 class="title">{{exp.name}} <span class="right">{{ exp.date}}</span></h6>
                         <div class="body condensed">{{ exp.description|rerender(obj=user)|safe }}</div>
                 {% endfor %}
@@ -36,7 +35,7 @@ CV - {{ user.full_name }}
             <h5 class="print-header">Experiences</h5>
             <hr class="half-condensed">
             <div class="print-header-items">
-                {% for exp in user.job_experiences|sort(attribute='end_date')|rejectattr("printable", 'equalto', false) %}
+                {% for exp in user.job_experiences|sort(attribute='end_date')|sort(attribute='priority')|rejectattr("printable", 'equalto', false) %}
                         <h6 class="title">{{exp.name}} - {{ exp.job_title}} <span class="right">{{ exp.display_date}}</span></h6>
                         <div class="body condensed">{{ exp.description|rerender(obj=user)|safe }}</div>
                 {% endfor %}

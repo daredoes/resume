@@ -56,6 +56,15 @@
                         {% if type != 'index' and type != 'info' %}
                         <input name="user_id" value="{{ user.id }}" hidden/>
                         {% endif %}
+                        <div class="row">
+                            <div class="col s12">
+                                <p class="range-field">
+                                    <input type="range" min="-100" max="100" value="{{ item.priority }}" name="priority" />
+
+                                    <span class="left">Left-Most Priority</span><span class="right">Right-Most Priority</span>
+                                </p>
+                            </div>
+                        </div>
                     {% endif %}
                     {% if type == 'jobs' %}
                         <div class="row">
@@ -201,6 +210,13 @@
                                     <span class="left">Amateur</span><span class="right">Master</span>
                                 </p>
                             </div>
+                             <div class="col s12">
+                                <p class="range-field">
+                                    <input type="range" min="-100" max="100" value="0" name="priority" />
+
+                                    <span class="left">Left-Most Priority</span><span class="right">Right-Most Priority</span>
+                                </p>
+                            </div>
                         </div>
                              <div class="row center">
                                  <div class="col s6 input-field">
@@ -242,6 +258,13 @@
                                     <span class="left">Amateur</span><span class="right">Master</span>
                                 </p>
                             </div>
+                             <div class="col s12">
+                                <p class="range-field">
+                                    <input type="range" min="-100" max="100" value="{{ each.priority }}" name="priority" />
+
+                                    <span class="left">Left-Most Priority</span><span class="right">Right-Most Priority</span>
+                                </p>
+                            </div>
 
                         </div>
                              <div class="row center">
@@ -280,6 +303,13 @@
                             <label for="hobby_name">Hobby Name</label>
                             <input name="name" id="hobby_name" value="" placeholder="New Hobby Name"/>
                         </div>
+                             <div class="col s12">
+                                <p class="range-field">
+                                    <input type="range" min="-100" max="100" value="0" name="priority" />
+
+                                    <span class="left">Left-Most Priority</span><span class="right">Right-Most Priority</span>
+                                </p>
+                            </div>
                     </div>
                         <div class="col s6">
                                      <input type="checkbox" hidden name="printable" checked value="False" id="printableh"/>
@@ -310,6 +340,13 @@
                             <label for="hobby_name{{loop.index}}">Hobby Name</label>
                             <input name="name" id="hobby_name{{loop.index}}" value="{{each.name}}" />
                         </div>
+                             <div class="col s12">
+                                <p class="range-field">
+                                    <input type="range" min="-100" max="100" value="{{ each.priority }}" name="priority" />
+
+                                    <span class="left">Left-Most Priority</span><span class="right">Right-Most Priority</span>
+                                </p>
+                            </div>
                     </div>
                         <div class="row">
                             <div class="col s6">
