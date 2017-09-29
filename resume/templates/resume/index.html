@@ -133,8 +133,9 @@ CV - {{ user.full_name }}
                     </div>
                 </div>
                 {% endif %}
-                {% if user.contact_items %}
+
                 <div class="col s12 l5">
+                    {% if user.contact_items %}
                     <div class="row">
                     <p class="resume-section-header heavy green-text  text-darken-2">//Contact</p><hr>
                         <ul class="collection grey lighten-4 " style="border: 0;">
@@ -146,7 +147,10 @@ CV - {{ user.full_name }}
                             </li>
                         {% endfor %}
                         </ul>
-                    </div><div class="row">
+                    </div>
+                    {% endif %}
+                    {% if user.skills %}
+                    <div class="row">
                     <p class="resume-section-header heavy green-text  text-darken-2">//Skills</p>
                     <hr>
                     <div class="row resume-bar-level-text grey-text text-darken-2">
@@ -172,7 +176,8 @@ CV - {{ user.full_name }}
                         </div>
                     {% endfor %}
                     </div>
-
+                    {% endif %}
+                    {% if user.hobbies %}
                     </div><div class="row">
                     <p class="resume-section-header heavy green-text  text-darken-2">//Hobbies</p><hr>
                     {% for hobby in user.hobbies|sort(attribute='name')|sort(attribute='priority') %}
@@ -181,9 +186,10 @@ CV - {{ user.full_name }}
                     </div>
                     {% endfor %}
                     </div>
+                    {% endif %}
                 </div>
-                {% endif %}
-                
+
+
             </div>
         </div>
     </div>
