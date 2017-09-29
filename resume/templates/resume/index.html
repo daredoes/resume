@@ -15,7 +15,7 @@ CV - {{ user.full_name }}
                     <p class="condensed">{{user.address.name if user.address else "123 DareDoes Site, Internet, WRLD 01101"}}</p>
                     <p class="condensed">
                     {% for contact in user.contact_items|sort(attribute='priority')|rejectattr("printable", 'equalto', false) %}
-                        {{contact.description|rerender(obj=user)}} {% if not loop.last %}|{% endif %}
+                        {{contact.description|rerender(obj=user)|striptags }} {% if not loop.last %}|{% endif %}
                     {% endfor %}
                     </p>
                 </div>
