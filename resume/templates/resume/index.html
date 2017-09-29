@@ -24,6 +24,8 @@ CV - {{ user.full_name }}
             <div>
                 {{ user.about_me|rerender(obj=user)|safe }}
             </div>
+
+            {% if user.life_experiences %}
             <h5 class="print-header">Education</h5>
             <hr class="half-condensed">
             <div class="print-header-items">
@@ -32,6 +34,8 @@ CV - {{ user.full_name }}
                         <div class="body condensed">{{ exp.description|rerender(obj=user)|safe }}</div>
                 {% endfor %}
             </div>
+            {% endif %}
+            {% if user.job_experiences %}
             <h5 class="print-header">Experiences</h5>
             <hr class="half-condensed">
             <div class="print-header-items">
@@ -40,6 +44,8 @@ CV - {{ user.full_name }}
                         <div class="body condensed">{{ exp.description|rerender(obj=user)|safe }}</div>
                 {% endfor %}
             </div>
+            {% endif %}
+            {% if user.skills %}
             <div>
             <h5 class="print-header">Skills</h5>
                     <hr class="half-condensed">
@@ -53,6 +59,7 @@ CV - {{ user.full_name }}
                 {% endfor %}
 
             </div>
+            {% endif %}
         </div>
         <div class="card grey lighten-4 no-print">
             <div class="row center">
@@ -73,12 +80,15 @@ CV - {{ user.full_name }}
             </div>
             <div class="row">
                 <div class="col s12 l7">
+                    {% if user.about_me %}
                     <div class="row">
                     <p class="resume-section-header heavy green-text  text-darken-2">//About Me</p>
                         <div id="about_text">
                             {{ user.about_me|rerender(obj=user)|safe }}
                         </div>
                     </div>
+                    {% endif %}
+                    {% if user.life_experiences %}
                     <div class="row">
                     <p class="resume-section-header heavy green-text  text-darken-2">//Education</p>
                         <ul class="collection grey lighten-4" style="border: 0;">
@@ -99,6 +109,8 @@ CV - {{ user.full_name }}
 
                         </ul>
                     </div>
+                    {% endif %}
+                    {% if user.job_experiences %}
                     <div class="row">
                     <p class="resume-section-header heavy green-text  text-darken-2">//Experiences</p>
                         <div class="scroll-box">
@@ -120,6 +132,8 @@ CV - {{ user.full_name }}
                         </div>
                     </div>
                 </div>
+                {% endif %}
+                {% if user.contact_items %}
                 <div class="col s12 l5">
                     <div class="row">
                     <p class="resume-section-header heavy green-text  text-darken-2">//Contact</p><hr>
@@ -168,6 +182,8 @@ CV - {{ user.full_name }}
                     {% endfor %}
                     </div>
                 </div>
+                {% endif %}
+                
             </div>
         </div>
     </div>
