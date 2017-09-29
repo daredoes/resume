@@ -43,7 +43,7 @@ CV - {{ user.full_name }}
             <div>
             <h5 class="print-header">Skills</h5>
                     <hr class="half-condensed">
-                {% for skill in user.skills|sort(attribute='level')|rejectattr("printable", 'equalto', false) %}
+                {% for skill in user.skills|sort(attribute='level')|sort(attribute='priority')|rejectattr("printable", 'equalto', false) %}
                     <span>{{ skill.name }} •
                         {% if skill.level < 25 %}Beginner
                         {% elif skill.level < 50 %}Proficient
@@ -82,7 +82,7 @@ CV - {{ user.full_name }}
                     <div class="row">
                     <p class="resume-section-header heavy green-text  text-darken-2">//Education</p>
                         <ul class="collection grey lighten-4" style="border: 0;">
-                            {% for e in user.life_experiences|sort(attribute='year') %}
+                            {% for e in user.life_experiences|sort(attribute='year')|sort(attribute='priority') %}
                                 <li class="collection-item grey lighten-4 no-padding" style="border:0; padding: 1em 0em 5em 0.05em !important;" >
                                     <div class="left col no-padding m1 s2 l2">
                                         <span class="badge boxed grey darken-1">{{ e.year }} </span>
@@ -104,7 +104,7 @@ CV - {{ user.full_name }}
                         <div class="scroll-box">
                             <div class="row">
                                 <div class="col s12">
-                                    {% for e in user.job_experiences|sort(attribute='end_date') %}
+                                    {% for e in user.job_experiences|sort(attribute='end_date')|sort(attribute='priority') %}
                                     <div class="card grey lighten-4">
                                         <div class="card-content black-text">
                                             <span class="card-title"><a href="{{ e.link }}">{{ e.name }} - {{ e.job_title}}</a></span>
@@ -161,7 +161,7 @@ CV - {{ user.full_name }}
 
                     </div><div class="row">
                     <p class="resume-section-header heavy green-text  text-darken-2">//Hobbies</p><hr>
-                    {% for hobby in user.hobbies|sort(attribute='name') %}
+                    {% for hobby in user.hobbies|sort(attribute='name')|sort(attribute='priority') %}
                     <div class="chip">
                         <i class="fa fa-heart"></i> {{hobby.name}}
                     </div>
