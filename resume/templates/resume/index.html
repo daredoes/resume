@@ -124,7 +124,7 @@ CV - {{ user.full_name }}
                     <div class="row">
                     <p class="resume-section-header heavy green-text  text-darken-2">//Contact</p><hr>
                         <ul class="collection grey lighten-4 " style="border: 0;">
-                        {% for contact in user.contact_items|sort(attribute='name') %}
+                        {% for contact in user.contact_items|sort(attribute='name')|sort(attribute='priority') %}
                             <li class="collection-item avatar grey lighten-4" style="margin-bottom: -1em;">
                                 <a href="{{ contact.link }}"><i class="fa {{ contact.icon }} circle blue lighten-1"></i></a>
                             <span class="title heavy">{{ contact.name }}</span>
