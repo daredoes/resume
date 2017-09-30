@@ -29,7 +29,7 @@ CV - {{ user.full_name }}
             <hr class="half-condensed">
             <div class="print-header-items">
                 {% for exp in user.life_experiences|sort(attribute='priority')|rejectattr("printable", 'equalto', false) %}
-                        <h6 class="title">{{exp.name}} <span class="right">{{ exp.date}}</span></h6>
+                        <h6 class="title">{{exp.name}} <span class="right">{{ exp.display_date}}</span></h6>
                         <div class="body condensed">{{ exp.description|rerender(user)|safe }}</div>
                 {% endfor %}
             </div>
@@ -40,6 +40,7 @@ CV - {{ user.full_name }}
             <div class="print-header-items">
                 {% for exp in user.job_experiences|sort(attribute='end_date', reverse=1)|sort(attribute='priority')|rejectattr("printable", 'equalto', false) %}
                         <h6 class="title">{{exp.name}} - {{ exp.job_title}} <span class="right">{{ exp.display_date}}</span></h6>
+
                         <div class="body condensed">{{ exp.description|rerender(user)|safe }}</div>
                 {% endfor %}
             </div>
@@ -48,15 +49,17 @@ CV - {{ user.full_name }}
             <div>
             <h5 class="print-header">Skills</h5>
                     <hr class="half-condensed">
-                {% for skill in user.skills|sort(attribute='level')|sort(attribute='priority')|rejectattr("printable", 'equalto', false) %}
-                    <span>{{ skill.name }} •
-                        {% if skill.level < 25 %}Beginner
-                        {% elif skill.level < 50 %}Proficient
-                        {% elif skill.level < 75 %}Advanced
-                        {% elif skill.level <= 100 %}Master{%endif%}
-                    </span>{% if not loop.last %}<span> | </span>{%endif%}
+                <div class="body row">
+                {% for grouper, list in user.skills|rejectattr("printable", 'equalto', false)|groupby('rating') %}
+                    <div class="col s3 body">
+                        <div class="row center" style="border: double;"><span class="heavy">{{ grouper }}</span></div>
+                        <div class="row center" style="border: double; border-top: none;">
+                    {% for skill in list|sort(attribute='priority') %}
+                    <span>{{ skill.name }}</span>{% if not loop.last %}<span> • </span>{%endif%}
+                    {% endfor %}
+                    </div></div>
                 {% endfor %}
-
+                </div>
             </div>
             {% endif %}
         </div>
@@ -140,7 +143,7 @@ CV - {{ user.full_name }}
                     <p class="resume-section-header heavy green-text  text-darken-2">//Contact</p><hr>
                         <ul class="collection grey lighten-4 " style="border: 0;">
                         {% for contact in user.contact_items|sort(attribute='name')|sort(attribute='priority') %}
-                            <li class="collection-item avatar grey lighten-4" style="margin-bottom: -1em;">
+                            <li class="collection-item avatar grey lighten-4" style="margin-bottom: -2em;">
                                 <a href="{{ contact.link }}"><i class="fa {{ contact.icon }} circle blue lighten-1"></i></a>
                             <span class="title heavy">{{ contact.name }}</span>
                                 <p>{{ contact.description }}</p>
@@ -158,7 +161,7 @@ CV - {{ user.full_name }}
                             Beginner
                         </div>
                         <div class="col s3 center" style="border-top: double; border-left: double">
-                            Proficient
+                            Competent
                         </div>
                         <div class="col s3 center" style="border-top: double; border-left: double; border-right: double;">
                             Expert

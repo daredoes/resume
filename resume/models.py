@@ -106,6 +106,10 @@ class LifeExperience(MainModel):
         return "%s - %s" % (self.name, self.date)
 
     @property
+    def display_date(self):
+        return self.date.strftime("%b, %Y")
+
+    @property
     def year(self):
         return self.date.year
 
@@ -144,3 +148,16 @@ class Skill(MainModel):
     @property
     def display_name(self):
         return "%s - %s" % (self.name, self.level)
+
+    @property
+    def rating(self):
+        if self.level < 25:
+            return "Beginner"
+        elif self.level < 50:
+            return "Competent"
+        elif self.level < 75:
+            return "Expert"
+        elif self.level <= 100:
+            return "Master"
+        else:
+            return "Grand Wizard"

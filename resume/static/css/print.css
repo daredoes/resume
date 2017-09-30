@@ -77,8 +77,12 @@
         color: #F1F1F1;
     }
 
-    .body > p{
+    .body > p, .body > div{
         margin: 0;
+    }
+
+    .title, .title > span {
+        text-decoration: underline;
     }
 
 }
