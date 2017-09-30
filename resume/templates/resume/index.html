@@ -21,17 +21,16 @@ CV - {{ user.full_name }}
                 </div>
             </div>
             <hr class="condensed">
-            <div>
-                {{ user.about_me|rerender(obj=user)|safe }}
+            <div class="body">
+                {{ user.about_me|rerender(user)|safe }}
             </div>
-
             {% if user.life_experiences %}
             <h5 class="print-header">Education</h5>
             <hr class="half-condensed">
             <div class="print-header-items">
                 {% for exp in user.life_experiences|sort(attribute='priority')|rejectattr("printable", 'equalto', false) %}
                         <h6 class="title">{{exp.name}} <span class="right">{{ exp.date}}</span></h6>
-                        <div class="body condensed">{{ exp.description|rerender(obj=user)|safe }}</div>
+                        <div class="body condensed">{{ exp.description|rerender(user)|safe }}</div>
                 {% endfor %}
             </div>
             {% endif %}
@@ -41,7 +40,7 @@ CV - {{ user.full_name }}
             <div class="print-header-items">
                 {% for exp in user.job_experiences|sort(attribute='end_date', reverse=1)|sort(attribute='priority')|rejectattr("printable", 'equalto', false) %}
                         <h6 class="title">{{exp.name}} - {{ exp.job_title}} <span class="right">{{ exp.display_date}}</span></h6>
-                        <div class="body condensed">{{ exp.description|rerender(obj=user)|safe }}</div>
+                        <div class="body condensed">{{ exp.description|rerender(user)|safe }}</div>
                 {% endfor %}
             </div>
             {% endif %}
@@ -100,7 +99,7 @@ CV - {{ user.full_name }}
                                     <div class="col m11 s10 l10">
                                         <span class="experience-title">{{ e.name|rerender(user)|safe }}</span>
                                         <br>
-                                        <span class="grey-text text-darken-1">
+                                        <span class="grey-text text-darken-1 body">
                                             {{ e.description|rerender(user)|safe }}
                                         </span>
                                     </div>
