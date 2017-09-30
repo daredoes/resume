@@ -6,8 +6,8 @@ class Root:
     @unrestricted
     def index(self, session, id=None, message=''):
         if id:
-            user = session.admin_user()
-            user = user if user else session.query(User).filter(User.id == id).first()
+            user = session.query(User).filter(User.id == id).first()
+            user = user if user else session.admin_user()
         else:
             user = session.query(User).first()
         return {
