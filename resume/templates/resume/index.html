@@ -116,7 +116,7 @@ CV - {{ user.full_name }}
                         <div class="scroll-box">
                             <div class="row">
                                 <div class="col s12">
-                                    {% for e in user.job_experiences|sort(attribute='end_date', True)|sort(attribute='priority') %}
+                                    {% for e in user.job_experiences|sort(attribute='end_date')|sort(attribute='priority') %}
                                     <div class="card grey lighten-4">
                                         <div class="card-content black-text">
                                             <span class="card-title"><a href="{{ e.link }}">{{ e.name }} - {{ e.job_title}}</a></span>
