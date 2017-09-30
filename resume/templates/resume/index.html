@@ -39,7 +39,7 @@ CV - {{ user.full_name }}
             <h5 class="print-header">Experiences</h5>
             <hr class="half-condensed">
             <div class="print-header-items">
-                {% for exp in user.job_experiences|sort(attribute='end_date')|sort(attribute='priority')|rejectattr("printable", 'equalto', false) %}
+                {% for exp in user.job_experiences|sort(attribute='end_date', reverse=1)|sort(attribute='priority')|rejectattr("printable", 'equalto', false) %}
                         <h6 class="title">{{exp.name}} - {{ exp.job_title}} <span class="right">{{ exp.display_date}}</span></h6>
                         <div class="body condensed">{{ exp.description|rerender(obj=user)|safe }}</div>
                 {% endfor %}
@@ -116,7 +116,7 @@ CV - {{ user.full_name }}
                         <div class="scroll-box">
                             <div class="row">
                                 <div class="col s12">
-                                    {% for e in user.job_experiences|sort(attribute='end_date')|sort(attribute='priority') %}
+                                    {% for e in user.job_experiences|sort(attribute='end_date', reverse=1)|sort(attribute='priority') %}
                                     <div class="card grey lighten-4">
                                         <div class="card-content black-text">
                                             <span class="card-title"><a href="{{ e.link }}">{{ e.name }} - {{ e.job_title}}</a></span>

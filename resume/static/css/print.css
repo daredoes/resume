@@ -77,4 +77,8 @@
         color: #F1F1F1;
     }
 
+    .body > p{
+        line-height: 1rem;
+    }
+
 }
