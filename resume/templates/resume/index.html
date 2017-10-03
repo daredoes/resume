@@ -52,7 +52,7 @@ CV - {{ user.full_name }}
             <h5 class="print-header">Skills</h5>
                     <hr class="half-condensed">
                 <div class="body row">
-                {% for skill in user.skills|rejectattr("printable", 'equalto', false)|sort(attribute='priority') %}
+                {% for skill in user.skills|rejectattr("printable", 'equalto', false)|sort(attribute='level')|sort(attribute='priority') %}
                     <span>{{ skill.name }}</span>{% if not loop.last %}<span> • </span>{%endif%}
                 {% endfor %}
                 </div>
