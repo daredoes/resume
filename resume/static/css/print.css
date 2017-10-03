@@ -81,8 +81,9 @@
         margin: 0;
     }
 
-    .title, .title > span {
-        text-decoration: underline;
+
+    .title {
+
     }
 
 }

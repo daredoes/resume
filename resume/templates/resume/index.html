@@ -20,8 +20,9 @@ CV - {{ user.full_name }}
                     </p>
                 </div>
             </div>
-            <hr class="condensed">
+
             {% if user.about_me %}
+            <hr class="condensed">
             <div class="body">
                 {{ user.about_me|rerender(user)|safe }}
             </div>
@@ -52,7 +53,7 @@ CV - {{ user.full_name }}
             <h5 class="print-header">Skills</h5>
                     <hr class="half-condensed">
                 <div class="body row">
-                {% for skill in user.skills|rejectattr("printable", 'equalto', false)|sort(attribute='level')|sort(attribute='priority') %}
+                {% for skill in user.skills|rejectattr("printable", 'equalto', false)|sort(attribute='level', reverse=1)|sort(attribute='priority') %}
                     <span>{{ skill.name }}</span>{% if not loop.last %}<span> • </span>{%endif%}
                 {% endfor %}
                 </div>
@@ -166,7 +167,7 @@ CV - {{ user.full_name }}
                             Master
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row scroll-box">
                     {% for skill in user.skills|sort(attribute='level') %}
                         <div class="resume-bar-holder">
                             <div class="resume-bar green" style="width: {{ skill.level }}%;">
