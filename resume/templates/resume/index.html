@@ -21,9 +21,11 @@ CV - {{ user.full_name }}
                 </div>
             </div>
             <hr class="condensed">
+            {% if user.about_me %}
             <div class="body">
                 {{ user.about_me|rerender(user)|safe }}
             </div>
+            {% endif %}
             {% if user.life_experiences %}
             <h5 class="print-header">Education</h5>
             <hr class="half-condensed">
