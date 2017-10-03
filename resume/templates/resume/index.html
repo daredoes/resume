@@ -51,15 +51,9 @@ CV - {{ user.full_name }}
             <div>
             <h5 class="print-header">Skills</h5>
                     <hr class="half-condensed">
-                <div class="body row">
-                {% for grouper, list in user.skills|rejectattr("printable", 'equalto', false)|groupby('rating') %}
-                    <div class="col s3 body">
-                        <div class="row center" style="border: double;"><span class="heavy">{{ grouper }}</span></div>
-                        <div class="row center" style="border: double; border-top: none;">
-                    {% for skill in list|sort(attribute='priority') %}
+                <div class="body row" style="border: double;">
+                {% for skill in user.skills|rejectattr("printable", 'equalto', false)|sort(attribute='priority') %}
                     <span>{{ skill.name }}</span>{% if not loop.last %}<span> • </span>{%endif%}
-                    {% endfor %}
-                    </div></div>
                 {% endfor %}
                 </div>
             </div>
