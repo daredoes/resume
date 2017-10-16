@@ -170,8 +170,11 @@ CV - {{ user.full_name }}
                     <div class="row scroll-box">
                     {% for skill in user.skills|sort(attribute='level') %}
                         <div class="resume-bar-holder">
-                            <div class="resume-bar green" style="width: {{ skill.level }}%;">
-                                <span class=" resume-bar-text">{{ skill.name }}</span>
+
+                            <div class="resume-bar green darken-2" style="width: 100%; position:relative; padding: 0;">
+                                <div class="resume-bar green" style="width: {{ skill.level }}%;">
+                                    <span class=" resume-bar-text">{{ skill.name }}</span>
+                                </div>
                             </div>
                         </div>
                     {% endfor %}
