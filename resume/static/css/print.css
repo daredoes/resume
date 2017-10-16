@@ -6,7 +6,7 @@
     .no-print{
         display: none;
     }
-    
+
     .print-only{
         display: block;
     }
@@ -30,6 +30,10 @@
     }
     .half-condensed{
         margin-top: -0.5rem;
+    }
+
+    .quarter-condensed{
+      margin-top: -0.25rem;
     }
 
     .print-header-items > .body {
