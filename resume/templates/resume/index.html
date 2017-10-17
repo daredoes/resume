@@ -31,7 +31,7 @@ CV - {{ user.full_name }}
             <h5 class="print-header">Education</h5>
             <hr class="half-condensed">
             <div class="print-header-items">
-                {% for exp in user.life_experiences|rejectattr("printable", 'equalto', false)|sort(attribute='year', reverse=1)|sort(attribute='priority')| %}
+                {% for exp in user.life_experiences|rejectattr("printable", 'equalto', false)|sort(attribute='year', reverse=1)|sort(attribute='priority') %}
                         <h6 class="title">{{exp.name}} <span class="right">{{ exp.display_date}}</span></h6>
                         <div class="body condensed">{{ exp.description|rerender(user)|safe }}</div>
                 {% endfor %}
