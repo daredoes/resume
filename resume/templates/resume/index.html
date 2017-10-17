@@ -14,7 +14,7 @@ CV - {{ user.full_name }}
                 <div style="margin-top: -1.5rem;" class="print-header-items print-info">
                     <p class="condensed">{{user.address.name if user.address else "123 DareDoes Site, Internet, WRLD 01101"}}</p>
                     <p class="condensed">
-                    {% for contact in user.contact_items|sort(attribute='priority')|rejectattr("printable", 'equalto', false) %}
+                    {% for contact in user.contact_items|rejectattr("printable", 'equalto', false)|sort(attribute='priority') %}
                         {{contact.description|rerender(obj=user)|striptags }} {% if not loop.last %}|{% endif %}
                     {% endfor %}
                     </p>
@@ -31,7 +31,7 @@ CV - {{ user.full_name }}
             <h5 class="print-header">Education</h5>
             <hr class="half-condensed">
             <div class="print-header-items">
-                {% for exp in user.life_experiences|sort(attribute='priority')|rejectattr("printable", 'equalto', false) %}
+                {% for exp in user.life_experiences|rejectattr("printable", 'equalto', false)|sort(attribute='year', reverse=1)|sort(attribute='priority')| %}
                         <h6 class="title">{{exp.name}} <span class="right">{{ exp.display_date}}</span></h6>
                         <div class="body condensed">{{ exp.description|rerender(user)|safe }}</div>
                 {% endfor %}
@@ -41,7 +41,7 @@ CV - {{ user.full_name }}
             <h5 class="print-header">Experiences</h5>
             <hr class="half-condensed">
             <div class="print-header-items">
-                {% for exp in user.job_experiences|sort(attribute='end_date', reverse=1)|sort(attribute='priority')|rejectattr("printable", 'equalto', false) %}
+                {% for exp in user.job_experiences|rejectattr("printable", 'equalto', false)|sort(attribute='end_date', reverse=1)|sort(attribute='priority') %}
                         <h6 class="title">{{exp.name}} - {{ exp.job_title}} <span class="right">{{ exp.display_date}}</span></h6>
 
                         <div class="body condensed">{{ exp.description|rerender(user)|safe }}</div>
@@ -91,7 +91,7 @@ CV - {{ user.full_name }}
                     <div class="row">
                     <p class="resume-section-header heavy green-text  text-darken-2">//Education</p>
                         <ul class="collection grey lighten-4" style="border: 0;">
-                            {% for e in user.life_experiences|sort(attribute='year')|sort(attribute='priority') %}
+                            {% for e in user.life_experiences|sort(attribute='year', reverse=1)|sort(attribute='priority') %}
                                 <li class="collection-item grey lighten-4 no-padding" style="border:0; padding: 1em 0em 5em 0.05em !important;" >
                                     <div class="left col no-padding m1 s2 l2">
                                         <span class="badge boxed grey darken-1">{{ e.year }} </span>
